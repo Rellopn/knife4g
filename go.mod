@@ -1,4 +1,4 @@
-module github.com/hononet639/knife4g
+module github.com/Rellopn/knife4g
 
 go 1.18
 

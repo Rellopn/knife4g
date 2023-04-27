@@ -18,7 +18,8 @@ var (
 )
 
 type Config struct {
-	RelativePath string
+	RelativePath    string
+	DocRelativePath string
 }
 
 type service struct {
@@ -28,15 +29,16 @@ type service struct {
 	Location       string `json:"location"`
 }
 
-func init() {
+func Handler(config Config) gin.HandlerFunc {
 	var err error
-	docJson, err = os.ReadFile("./docs/swagger.json")
+	var docRPath = "./docs/swagger.json"
+	if config.DocRelativePath != "" {
+		docRPath = config.DocRelativePath
+	}
+	docJson, err = os.ReadFile(docRPath)
 	if err != nil {
 		log.Println("no swagger.json found in ./docs")
 	}
-}
-
-func Handler(config Config) gin.HandlerFunc {
 	docJsonPath := config.RelativePath + "/docJson"
 	servicesPath := config.RelativePath + "/front/service"
 	docPath := config.RelativePath + "/index"
